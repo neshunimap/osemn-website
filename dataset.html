@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OSEMN Dataset – Walmart Demand Forecasting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Optional external CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Chart.js Data Labels Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+</head>
+<body>
+
+<header>
+    <h1>OSEMN Data Science Methodology</h1>
+    <p>Obtain • Scrub • Explore • Model • Interpret</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="overview.html">Methodology Overview</a>
+    <a href="steps.html">OSEMN Steps</a>
+    <a href="example.html">Real-World Example</a>
+    <a href="visuals.html">Visual Elements</a>
+    <a href="dataset.html">Dataset</a>
+    <a href="references.html">References</a>
+    <a href="about.html">About</a>
+</nav>
+
+<div class="container">
+    <section>
+        <h2>Walmart Weekly Sales Forecasting Dataset</h2>
+
+        <p>
+            This chart visualizes <strong>actual weekly sales</strong> versus
+            <strong>forecasted sales</strong> using values adapted from the
+            real-world <em>Walmart Sales Forecasting</em> dataset.
+            It demonstrates the <strong>Model</strong> and
+            <strong>Interpret</strong> phases of the OSEMN framework.
+        </p>
+
+        <canvas id="demandChart"></canvas>
+
+        <p>
+            The forecast closely follows actual sales trends, with small deviations
+            caused by real-world factors such as promotions, holidays, and seasonal demand.
+        </p>
+    </section>
+</div>
+
+<footer>
+    <p>© 2026 | Data Science Assignment – OSEMN Methodology</p>
+</footer>
+
+<script>
+    const ctx = document.getElementById('demandChart').getContext('2d');
+    Chart.register(ChartDataLabels);
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [
+                'Week 1', 'Week 2', 'Week 3',
+                'Week 4', 'Week 5', 'Week 6'
+            ],
+            datasets: [
+                {
+                    label: 'Actual Weekly Sales (USD)',
+                    data: [
+                        1640000, 1725000, 1682000,
+                        1810000, 1945000, 1890000
+                    ],
+                    borderWidth: 3,
+                    pointRadius: 5,
+                    tension: 0.3,
+                    datalabels: {
+                        align: 'top',
+                        anchor: 'end'
+                    }
+                },
+                {
+                    label: 'Forecasted Weekly Sales (USD)',
+                    data: [
+                        1605000, 1700000, 1690000,
+                        1785000, 1910000, 1865000
+                    ],
+                    borderWidth: 3,
+                    borderDash: [6, 6],
+                    pointRadius: 5,
+                    tension: 0.3,
+                    datalabels: {
+                        align: 'bottom',
+                        anchor: 'end'
+                    }
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': $' +
+                                   context.parsed.y.toLocaleString();
+                        }
+                    }
+                },
+                datalabels: {
+                    font: {
+                        weight: 'bold'
+                    },
+                    formatter: function(value) {
+                        return '$' + value.toLocaleString();
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Walmart Weekly Sales vs Forecast (OSEMN – Model & Interpret)'
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Week'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Sales (USD)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return '$' + value.toLocaleString();
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
